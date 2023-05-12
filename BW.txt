@@ -1,0 +1,77 @@
+%Butterworth LPF
+
+clc;
+clear all;
+close all;
+wp=400*pi;
+ws=600*pi;
+Ap=1;
+As=4;
+fs=2000;
+wp=wp/fs;
+ws=ws/fs;
+%prewarping
+op=2*tan(wp/2);
+os=2*tan(ws/2);
+[n,oc]=buttord(op,os,Ap,As,'s');
+n=ceil(n);
+disp(n);
+disp(oc);
+[num,den]=butter(n,oc,'low','s');
+disp(num);
+disp(den);
+[nr,dr]=bilinear(num,den,1);
+disp(nr);
+disp(dr);
+[h,w]=freqz(nr,dr,512,fs);
+subplot(2,1,1);
+plot(w,20*log10(abs(h)));
+grid on;
+xlabel('frequency axis in Hz');
+ylabel('mag. of frequency response in db');
+title('mag. frequency response of digital butterworth lpf');
+subplot(2,1,2);
+plot(w,(angle(h)));
+xlabel('frequency axis in Hz');
+ylabel('mag. of phase response in rad');
+title('mag. phase response of digital butterworth lpf ');
+grid on;
+
+
+
+%Butterworth HPF
+
+clc;
+clear all;
+close all;
+wp=600*pi;
+ws=400*pi;
+Ap=1;
+As=4;
+fs=2000;
+%analog to digital domain conversion
+wp=wp/fs;
+ws=ws/fs;
+%prewarping
+op=2*tan(wp/2);
+os=2*tan(ws/2);
+[n,oc]=buttord(op,os,Ap,As,'s');
+n=ceil(n);
+disp(n);
+disp(oc);
+[num,den]=butter(n,oc,'high','s');
+disp(num);
+disp(den);
+[nr,dr]=bilinear(num,den,1);
+disp(nr); disp(dr);
+[h,w]=freqz(nr,dr,512,fs);
+subplot(2,1,1);
+plot(w,20*log10(abs(h)));
+xlabel('frequency axis in Hz');
+ylabel('mag. of frequency response in db');
+title('mag. frequency response of digital butterworth hpf');
+subplot(2,1,2);
+plot(w,(angle(h)));
+xlabel('frequency axis in Hz');
+ylabel('mag. of phase response in rad');
+title('mag. phase response of digital butterworth hpf');

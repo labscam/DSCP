@@ -1,0 +1,9 @@
+clc;
+x=[1 2 3 4];
+xd=fft(x);
+rxxl=ifft(xd.*conj(xd));
+disp(rxxl);
+stem(rxxl);
+xlabel(‘lag variables’);
+ylabel(‘amplitude of rxxl’);
+title(‘auto correlation in freq domain’);

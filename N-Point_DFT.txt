@@ -1,0 +1,35 @@
+function[Xk] =dft(xn) % Save this sub program as dft.m
+N=length(xn);
+n=[0:N-1];
+k=[0:N-1];
+WN=exp(-j*2*pi/N);
+nk=n'*k;
+WNnk=WN.^nk;
+Xk=xn*WNnk; end
+
+
+clc;
+clear all;
+x=input('enter the sequence x(n)');
+tic
+y=dft(x);
+toc
+disp('DFT Computation using Direct Method');
+disp(y);
+tic
+y1=fft(x);
+toc
+disp('DFT Computation using Fast Fourrier Transform Method');
+disp(y1);
+amp=abs(y);
+ph=angle(y);
+subplot(2,1,1)
+stem(amp);
+xlabel('K');
+ylabel('MAGNITUDE');
+title('magnitude plot');
+subplot(2,1,2)
+stem(ph*180/pi);
+xlabel('K');
+ylabel('PHASE');
+title('phase plot');

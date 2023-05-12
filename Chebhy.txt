@@ -1,0 +1,81 @@
+%Chebyshev LPF
+
+clc;
+clear all;
+close all;
+wp=200*pi;
+ws=1000*pi;
+Ap=2;
+As=20;
+fs=4000;
+%analog to digital domain conversion
+wp=wp/fs;
+ws=ws/fs;
+%prewarping
+op=2*tan(wp/2);
+os=2*tan(ws/2);
+[n,oc]=cheb1ord(op,os,Ap,As,'s');
+N=ceil(n);
+disp(N);
+disp(oc);
+[num,den]=cheby1(n,Ap,oc,'low','s');
+disp(num);
+disp(den);
+[nr,dr]=bilinear(num,den,1);
+disp(nr);
+disp(dr);
+[h,w]=freqz(nr,dr,512,fs);
+subplot(2,1,1);
+plot(w,20*log10(abs(h)));
+grid on;
+xlabel('frequency axis in Hz');
+ylabel('mag. of frequency response in db');
+title('mag. frequency response of digital chebyshev lpf');
+subplot(2,1,2);
+plot(w,(angle(h)));
+xlabel('frequency axis in Hz');
+ylabel('mag. of phase response in rad');
+title('mag. phase response of digital chebyshev lpf');
+grid on;
+
+
+
+%Chebyshev HPF
+
+clc;
+clear all;
+close all;
+ws=200*pi;
+wp=1000*pi;
+Ap=2;
+As=20;
+fs=4000;
+%analog to digital domain conversion
+wp=wp/fs;
+ws=ws/fs;
+%prewarping
+op=2*tan(wp/2);
+os=2*tan(ws/2);
+[n,oc]=cheb1ord(op,os,Ap,As,'s');
+N=ceil(n);
+disp(N);
+disp(oc);
+[num,den]=cheby1(n,Ap,oc,'high','s');
+disp(num);
+disp(den);
+[nr,dr]=bilinear(num,den,1);
+disp(nr);
+disp(dr);
+[h,w]=freqz(nr,dr,512,fs);
+subplot(2,1,1);
+plot(w,20*log10(abs(h)));
+grid on;
+xlabel('frequency axis in Hz');
+ylabel('mag. of frequency response in db');
+title('mag.frequency response of digital chebyshev hpf');
+subplot(2,1,2);
+plot(w,(angle(h)));
+xlabel('frequency axis in Hz');
+ylabel('mag. of phase response in rad');
+title('mag. phase response of digital chebyshev hpf');
+grid on;

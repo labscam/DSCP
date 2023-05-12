@@ -1,0 +1,18 @@
+clc;
+x=[1 2 3 4];
+rxxl=conv(x,fliplr(x));
+N=length(x);
+n=-(N-1):(N-1);
+disp(rxxl);
+stem(n,rxxl);
+xlabel('lag variables');
+ylabel('amplitude of rxxl');
+title('auto correlation');
+m=ceil(length(rxxl)/2);
+mx= max(rxxl);
+if(rxxl(m)==mx)
+disp('autocorrelation peak occurs at lag=0');
+end
+if(rxxl==fliplr(rxxl))
+disp('even property of auto correlation is verified');
+end

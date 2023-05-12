@@ -1,0 +1,31 @@
+%Linear cross correlation (Time Domain)
+
+clc;
+x1=[1 2 3 4];
+x2=[4 3 2 1];
+N1=length(x1);
+N2=length(x2);
+rxyl=conv(x1,fliplr(x2));
+n=-(N2-1):(N1-1);
+disp(rxyl);
+stem(n,rxyl);
+xlabel(‘lag variables’);
+ylabel(‘amplitude of rxyl’);
+title(‘cross correlation’);
+
+
+%Circular Cross correlation (Freq Domain)
+clc;
+x=[1 2 3 4];
+h=[4 3 2 1];
+N=max(length(x),length(h));
+x=[x,zeros(1,N-length(x))];
+h=[h,zeros(1,N-length(h))];
+xd=fft(x);
+hd=fft(h);
+yxy=ifft(xd.*conj(hd));
+disp(yxy);
+stem(yxy);
+xlabel(‘l->’);
+ylabel(‘amplitude’);
+title(‘cross correlation in freq domain’);
